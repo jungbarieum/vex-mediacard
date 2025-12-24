@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEXCLUB</title>
+
+<style>
+body{
+  margin:0;
+  font-family:"Poppins",sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  background:url('myweb4.jpg') no-repeat center center fixed;
+  background-size:cover;
+  overflow:hidden;
+  color:#fff;
+}
+
+.card{
+  background:linear-gradient(145deg,#8a00e6,#11001c);
+  width:280px;
+  padding:25px;
+  border-radius:18px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.6);
+  transform-style:preserve-3d;
+  transition:transform .1s linear;
+  position:relative;
+  overflow:hidden;
+}
+
+/* ======= توهج المرآة ======= */
+.card::before{
+  content:"";
+  position:absolute;
+  top:-50%; left:-50%;
+  width:200%; height:200%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.3), rgba(255,255,255,0), rgba(255,255,255,0.3));
+  transform:rotate(45deg);
+  animation: glow 3s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes glow{
+  0%{transform:translate(-100%,-100%) rotate(45deg);}
+  100%{transform:translate(100%,100%) rotate(45deg);}
+}
+
+.avatar{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #8a00e6;
+  box-shadow:0 0 15px #8a00e6;
+  position:relative;
+  z-index:1;
+}
+
+h1{
+  margin:12px 0 5px;
+  font-size:20px;
+  position:relative;
+  z-index:1;
+}
+
+p{
+  font-size:12px;
+  opacity:.8;
+  margin-bottom:15px;
+  position:relative;
+  z-index:1;
+}
+
+.links a{
+  display:block;
+  margin:8px 0;
+  padding:10px;
+  border-radius:12px;
+  text-decoration:none;
+  color:#fff;
+  background:rgba(255,255,255,.15);
+  transition:.25s;
+  position:relative;
+  z-index:1;
+}
+
+.links a:hover{
+  background:#8a00e6;
+  box-shadow:0 0 15px #8a00e6;
+  transform:scale(1.05);
+}
+
+.copyright{
+  font-size:10px;
+  opacity:.6;
+  margin-top:12px;
+  position:relative;
+  z-index:1;
+}
+
+@media(max-width:400px){
+  .card{width:240px;padding:18px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+  <img src="vexpiccc.jpg" class="avatar">
+  <h1>C.I.VEX</h1>
+  <p>About Us</p>
+
+  <div class="links">
+    <a href="https://www.instagram.com/c.i.vex.club/" target="_blank">Instagram</a>
+    <a href="https://www.facebook.com/c.i.vex.club/" target="_blank">Facebook</a>
+    <a href="https://www.tiktok.com/@vex0740" target="_blank">TikTok</a>
+    <a href="https://youtube.com/@civexclub" target="_blank">YouTube</a>
+    <a href="mailto:civexclub@gmail.com">Email</a>
+  </div>
+
+  <div class="copyright">★ created by the leader ★</div>
+</div>
+
+<script>
+const card = document.getElementById("card");
+let x=0,y=0,tx=0,ty=0;
+
+// ====== ماوس (كمبيوتر) ======
+document.addEventListener("mousemove",e=>{
+  const r=card.getBoundingClientRect();
+  tx=(e.clientX-r.left-r.width/2)/20;
+  ty=-(e.clientY-r.top-r.height/2)/20;
+});
+
+// ====== ميلان الهاتف ======
+function handleOrientation(e){
+  tx=e.gamma/4;
+  ty=-e.beta/4;
+}
+
+// iOS Permission
+if (typeof DeviceOrientationEvent !== "undefined" &&
+    typeof DeviceOrientationEvent.requestPermission === "function"){
+  DeviceOrientationEvent.requestPermission().then(p=>{
+    if(p==="granted"){
+      window.addEventListener("deviceorientation",handleOrientation);
+    }
+  });
+}else{
+  window.addEventListener("deviceorientation",handleOrientation);
+}
+
+// ====== أنيميشن ======
+function animate(){
+  x+=(tx-x)*0.1;
+  y+=(ty-y)*0.1;
+  card.style.transform=`rotateX(${y}deg) rotateY(${x}deg)`;
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>
